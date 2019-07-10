@@ -59,7 +59,8 @@ class QuestionActivity : AppCompatActivity() {
         if (isCorrect(button as Button)) {
             Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "Wrong...\n answer is `$answer`", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Wrong...\n correct answer is `$answer`", Toast.LENGTH_SHORT)
+                .show()
         }
         displayQuestion()
     }
@@ -92,7 +93,7 @@ class QuestionActivity : AppCompatActivity() {
             tv_question.text = answers[answer]
             val questions = arrayListOf(answer)
 
-            for (i in 0..2) {
+            for (i in 0..1) {
                 questions.add(generateTypeChoice(questions))
             }
 
