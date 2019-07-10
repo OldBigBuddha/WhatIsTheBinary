@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WhatIsTheBinary</string>
+    <string name="display_title_main">$ file</string>
 </resources>
