@@ -46,5 +46,16 @@ data class QuizResult(
             }
             return list
         }
+
+        fun fromString(raw: String): QuizResult {
+            if (!Regex(".*,.*,.*").containsMatchIn(raw)) {
+                throw IllegalArgumentException("Correct Format: '\$question,\$userAnswer,\$correctAnswer'")
+            } else {
+                val divisions = raw.split(",")
+                return QuizResult(divisions[0], divisions[1], divisions[2])
+            }
+        }
     }
+
+    override fun toString() = "$question,$userAnswer,$correctAnswer"
 }
