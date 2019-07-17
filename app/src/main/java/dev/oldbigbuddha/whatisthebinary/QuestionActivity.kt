@@ -1,5 +1,6 @@
 package dev.oldbigbuddha.whatisthebinary
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -17,9 +18,10 @@ import kotlin.random.Random
 
 class QuestionActivity : AppCompatActivity() {
 
-    private lateinit var type: QuestionType
+    private var countQuestions = 0
+    private var score = 0
 
-    private val answers = mapOf(
+    private val correctAnswersMap = mapOf(
         "PNG" to "89 50 4E 47 0D 0A 1A 0A",
         "PDF" to "25 50 44 46",
         "MP3" to "49 44 33",
@@ -27,7 +29,15 @@ class QuestionActivity : AppCompatActivity() {
         "GZIP" to "1F 8B 08"
     )
 
-    private val typeChoices = arrayListOf(
+    private val questions = arrayListOf(
+        "PNG",
+        "PDF",
+        "MP3",
+        "ELF",
+        "GZIP"
+    )
+
+    private val dummyChoices = arrayListOf(
         "PNG",
         "PDF",
         "MP3",
@@ -40,74 +50,64 @@ class QuestionActivity : AppCompatActivity() {
         "ZIP"
     )
 
-    private val signatureChoices = arrayListOf(
-        "89 50 4E 47 0D 0A 1A 0A",
-        "49 44 33",
-        "25 50 44 46",
-        "7F 45 4C 46",
-        "1F 8B 08",
-        "4D 54 68 64",
-        "CA FE BA BE",
-        "50 4B 03 04",
-        "3C 3F 78 6D 6C 20",
-        "D0 CF 11 E0 A1 B1 1A E1"
-    )
-
     private lateinit var answer: String
 
     private val onClickChoiceButton = View.OnClickListener { button ->
         if (isCorrect(button as Button)) {
+            score++
             Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Wrong...\n correct answer is `$answer`", Toast.LENGTH_SHORT)
                 .show()
         }
-        displayQuestion()
+
+        tv_score.text = "$score / $countQuestions"
+
+        if (countQuestions == questions.size) {
+            val intent = Intent(this, ResultActivity::class.java)
+            intent.putExtra("NumberOfQuestions", questions.size)
+            intent.putExtra("score", score)
+            startActivity(intent)
+        } else {
+            displayQuestion()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question)
 
-        intent?.let { it ->
-            type = QuestionType.fromInt(
-                it.getIntExtra(
-                    "question_type",
-                    QuestionType.BINARY_TO_TYPE.value
-                )
-            )
+        bt_choice_1.setOnClickListener(onClickChoiceButton)
+        bt_choice_2.setOnClickListener(onClickChoiceButton)
+        bt_choice_3.setOnClickListener(onClickChoiceButton)
 
-            bt_choice_1.setOnClickListener(onClickChoiceButton)
-            bt_choice_2.setOnClickListener(onClickChoiceButton)
-            bt_choice_3.setOnClickListener(onClickChoiceButton)
-
-            displayQuestion()
-        } ?: throw IllegalAccessException("No intent")
-
+        questions.shuffle()
+        displayQuestion()
     }
 
     private fun displayQuestion() {
-        val r = Random.nextInt(answers.size)
-        if (type === QuestionType.BINARY_TO_TYPE) {
-            answer = answers.keys.toList()[r]
-            tv_question.text = answers[answer]
-            val questions = arrayListOf(answer)
+        countQuestions++
 
-            for (i in 0..1) {
-                questions.add(generateTypeChoice(questions))
-            }
+        answer = questions[countQuestions - 1]
+        tv_question.text = correctAnswersMap[answer]
 
-            questions.shuffle()
+        val choices = arrayListOf<String>()
+        choices.add(answer)
 
-            bt_choice_1.text = questions[0]
-            bt_choice_2.text = questions[1]
-            bt_choice_3.text = questions[2]
+        dummyChoices.shuffle()
+        for (i in 0..1) {
+            choices.add(generateChoice(choices))
         }
+
+        choices.shuffle()
+        bt_choice_1.text = choices[0]
+        bt_choice_2.text = choices[1]
+        bt_choice_3.text = choices[2]
     }
 
-    private fun generateTypeChoice(choices: List<String>): String {
-        val choice = typeChoices[Random.nextInt(typeChoices.size)]
-        if (choice in choices) return generateTypeChoice(choices)
+    private fun generateChoice(choices: List<String>): String {
+        val choice = dummyChoices[Random.nextInt(dummyChoices.size)]
+        if (choice in choices) return generateChoice(choices)
         return choice
     }
 
