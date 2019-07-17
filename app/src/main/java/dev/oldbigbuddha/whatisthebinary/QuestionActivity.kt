@@ -18,16 +18,14 @@ import kotlin.random.Random
 
 class QuestionActivity : AppCompatActivity() {
 
+    companion object {
+        const val NUMBER_OF_CHOICES_SAMPlE = 3
+    }
+
+    private var numberOfChoices = 0
     private var countQuestions = 0
     private var score = 0
-
-    private val correctAnswersMap = mapOf(
-        "PNG" to "89 50 4E 47 0D 0A 1A 0A",
-        "PDF" to "25 50 44 46",
-        "MP3" to "49 44 33",
-        "ELF" to "7F 45 4C 46",
-        "GZIP" to "1F 8B 08"
-    )
+    private lateinit var answer: String
 
     private val questions = arrayListOf(
         "PNG",
@@ -35,6 +33,14 @@ class QuestionActivity : AppCompatActivity() {
         "MP3",
         "ELF",
         "GZIP"
+    )
+
+    private val correctAnswersMap = mapOf(
+        "PNG" to "89 50 4E 47 0D 0A 1A 0A",
+        "PDF" to "25 50 44 46",
+        "MP3" to "49 44 33",
+        "ELF" to "7F 45 4C 46",
+        "GZIP" to "1F 8B 08"
     )
 
     private val dummyChoices = arrayListOf(
@@ -50,14 +56,20 @@ class QuestionActivity : AppCompatActivity() {
         "ZIP"
     )
 
-    private lateinit var answer: String
-
     private val onClickChoiceButton = View.OnClickListener { button ->
         if (isCorrect(button as Button)) {
             score++
-            Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Correct",
+                Toast.LENGTH_SHORT
+            ).show()
         } else {
-            Toast.makeText(this, "Wrong...\n correct answer is `$answer`", Toast.LENGTH_SHORT)
+            Toast.makeText(
+                this,
+                "Wrong...\n correct answer is `$answer`",
+                Toast.LENGTH_SHORT
+            )
                 .show()
         }
 
@@ -81,6 +93,8 @@ class QuestionActivity : AppCompatActivity() {
         bt_choice_2.setOnClickListener(onClickChoiceButton)
         bt_choice_3.setOnClickListener(onClickChoiceButton)
 
+        numberOfChoices = NUMBER_OF_CHOICES_SAMPlE
+
         questions.shuffle()
         displayQuestion()
     }
@@ -95,7 +109,7 @@ class QuestionActivity : AppCompatActivity() {
         choices.add(answer)
 
         dummyChoices.shuffle()
-        for (i in 0..1) {
+        for (i in 0 until (numberOfChoices - 1)) {
             choices.add(generateChoice(choices))
         }
 
