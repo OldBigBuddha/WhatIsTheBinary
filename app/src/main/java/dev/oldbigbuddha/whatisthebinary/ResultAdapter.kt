@@ -1,6 +1,7 @@
 package dev.oldbigbuddha.whatisthebinary
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,12 @@ class ResultAdapter(
         view.tv_question_result.text = result.question
         view.tv_user_answer.text = result.userAnswer
         view.tv_correct_answer.text = result.correctAnswer
+
+        if (result.isCorrect) {
+            view.setBackgroundColor(Color.parseColor("#ee93c47d"))
+        } else {
+            view.setBackgroundColor(Color.parseColor("#eee06666"))
+        }
         return view
     }
 
