@@ -26,6 +26,7 @@ class QuestionActivity : AppCompatActivity() {
     private var countQuestions = 0
     private var score = 0
     private lateinit var answer: String
+    private val results = arrayListOf<String>()
 
     private val questions = arrayListOf(
         "PNG",
@@ -57,7 +58,14 @@ class QuestionActivity : AppCompatActivity() {
     )
 
     private val onClickChoiceButton = View.OnClickListener { button ->
-        if (isCorrect(button as Button)) {
+        results.add(
+            QuizResult(
+                correctAnswersMap.getValue(answer),
+                (button as Button).text.toString(),
+                answer
+            ).toString()
+        )
+        if (isCorrect(button)) {
             score++
             Toast.makeText(
                 this,
@@ -79,6 +87,7 @@ class QuestionActivity : AppCompatActivity() {
             val intent = Intent(this, ResultActivity::class.java)
             intent.putExtra("NumberOfQuestions", questions.size)
             intent.putExtra("score", score)
+            intent.putExtra("results", results)
             startActivity(intent)
         } else {
             displayQuestion()

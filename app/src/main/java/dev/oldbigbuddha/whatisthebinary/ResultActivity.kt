@@ -12,11 +12,16 @@ class ResultActivity : AppCompatActivity() {
         setContentView(R.layout.activity_result)
         val countQuestions = intent.getIntExtra("NumberOfQuestions", 10)
         val score = intent.getIntExtra("score", 0)
+        val resultsStr = intent.getStringArrayListExtra("results")
+        val results = arrayListOf<QuizResult>()
+        for (result in resultsStr) {
+            results.add(QuizResult.fromString(result))
+        }
 
         tv_number_of_questions.text = countQuestions.toString()
         tv_score.text = score.toString()
 
-        list_results.adapter = ResultAdapter(this, QuizResult.makeSampleList(5))
+        list_results.adapter = ResultAdapter(this, results)
 
         bt_return_home.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
