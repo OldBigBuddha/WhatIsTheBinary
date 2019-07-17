@@ -16,6 +16,8 @@ class ResultActivity : AppCompatActivity() {
         tv_number_of_questions.text = countQuestions.toString()
         tv_score.text = score.toString()
 
+        list_results.adapter = ResultAdapter(this, QuizResult.makeSampleList(5))
+
         bt_return_home.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
