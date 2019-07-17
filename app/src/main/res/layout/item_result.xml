@@ -8,36 +8,40 @@
     <TextView
         android:id="@+id/tv_index_of_question"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="0" />
+        android:text="0"
+        android:background="@drawable/stroke" />
 
     <TextView
         android:id="@+id/tv_question_result"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="7"
         android:gravity="center"
         android:textSize="16sp"
-        android:text="89 50 4E 47 0D 0A 1A 0A" />
+        android:text="89 50 4E 47 0D 0A 1A 0A"
+        android:background="@drawable/stroke" />
 
     <TextView
         android:id="@+id/tv_correct_answer"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="2"
         android:gravity="center"
         android:textSize="16sp"
-        android:text="PNG" />
+        android:text="PNG"
+        android:background="@drawable/stroke" />
 
     <TextView
         android:id="@+id/tv_user_answer"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="2"
         android:gravity="center"
         android:textSize="16sp"
-        android:text="PNG" />
+        android:text="PNG"
+        android:background="@drawable/stroke" />
 
 </LinearLayout>
