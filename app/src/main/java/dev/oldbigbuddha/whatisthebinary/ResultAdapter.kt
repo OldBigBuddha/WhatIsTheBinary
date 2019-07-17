@@ -38,14 +38,10 @@ data class QuizResult(
     val userAnswer: String,
     val correctAnswer: String
 ) {
+
+    val isCorrect = userAnswer == correctAnswer
+
     companion object {
-        fun makeSampleList(count: Int): List<QuizResult> {
-            val list = arrayListOf<QuizResult>()
-            for (i in 0 until count) {
-                list.add(QuizResult("Question sample", "PNG", "GZIP"))
-            }
-            return list
-        }
 
         fun fromString(raw: String): QuizResult {
             if (!Regex(".*,.*,.*").containsMatchIn(raw)) {
