@@ -85,9 +85,11 @@ class QuestionActivity : AppCompatActivity() {
 
         if (countQuestions == questions.size) {
             val intent = Intent(this, ResultActivity::class.java)
-            intent.putExtra("NumberOfQuestions", questions.size)
-            intent.putExtra("score", score)
-            intent.putExtra("results", results)
+            intent.apply {
+                putExtra("NumberOfQuestions", questions.size)
+                putExtra("score", score)
+                putExtra("results", results)
+            }
             startActivity(intent)
         } else {
             displayQuestion()

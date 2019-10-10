@@ -51,12 +51,9 @@ data class QuizResult(
     companion object {
 
         fun fromString(raw: String): QuizResult {
-            if (!Regex(".*,.*,.*").containsMatchIn(raw)) {
-                throw IllegalArgumentException("Correct Format: '\$question,\$userAnswer,\$correctAnswer'")
-            } else {
-                val divisions = raw.split(",")
-                return QuizResult(divisions[0], divisions[1], divisions[2])
-            }
+            require(Regex(".*,.*,.*").containsMatchIn(raw)) { "Correct Format: '\$question,\$userAnswer,\$correctAnswer'" }
+            val divisions = raw.split(",")
+            return QuizResult(divisions[0], divisions[1], divisions[2])
         }
     }
 
